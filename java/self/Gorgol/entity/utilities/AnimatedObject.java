@@ -5,12 +5,12 @@ import java.awt.image.BufferedImage;
 
 public class AnimatedObject implements IRenderer, IUpdatable {
 
-    private int currentAnimationStep;
-    private final int totalAnimationSteps;
-    private final float animationTimeStep;
-    private float currentAnimationTime;
-    private final int animationStepPixelSize;
-    private final BufferedImage image;
+    protected int currentAnimationStep;
+    protected final int totalAnimationSteps;
+    protected final float animationTimeStep;
+    protected float currentAnimationTime;
+    protected final int animationStepPixelSize;
+    protected final BufferedImage image;
     public final PhysicsBody body;
 
     public AnimatedObject(float x, float y, float width, float height, BufferedImage image,

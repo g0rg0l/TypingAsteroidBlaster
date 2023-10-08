@@ -5,6 +5,7 @@ import self.Gorgol.entity.objects.asteroids.AsteroidHolder;
 import self.Gorgol.entity.objects.background.Background;
 import self.Gorgol.entity.objects.background.BackgroundElement;
 import self.Gorgol.entity.objects.background.BackgroundElementHolder;
+import self.Gorgol.entity.objects.player.Player;
 
 import java.awt.*;
 
@@ -30,6 +31,7 @@ public class ObjectController {
     }
 
     public void updateObjects(float dt) {
+        player.update(dt);
         asteroidHolder.update(dt, player.body);
         backgroundElementHolder.update(dt);
         background.update(dt);

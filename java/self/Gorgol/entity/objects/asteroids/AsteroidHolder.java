@@ -22,7 +22,7 @@ public class AsteroidHolder {
 
             if (object.type == AsteroidType.BASE) {
                 if (object.body.intersects(playerHitBox)) {
-                    object.explode();
+                    System.exit(0);
                 }
 
                 if (object.body.y + object.body.height >= yDeath) {
@@ -39,20 +39,12 @@ public class AsteroidHolder {
         }
     }
 
-    public Asteroid selectRandom() {
-        for (int i = 0; i < asteroids.size(); i++) {
-            if (asteroids.get(i).isSelected) asteroids.get(i).isSelected = false;
-        }
-
-        if (!asteroids.isEmpty()) {
-            int n = (int) (Math.random() * asteroids.size());
-            Asteroid randomAsteroid = asteroids.get(n);
-            randomAsteroid.isSelected = true;
-
-            return randomAsteroid;
-        }
-        else return null;
-    }
-
     public void add(Asteroid asteroid) { asteroids.add(asteroid); }
+
+    public Asteroid getByFirstChar(char ch) {
+        for (Asteroid asteroid : asteroids)
+            if (asteroid.isVisible() && asteroid.word.match(ch)) return asteroid;
+
+        return null;
+    }
 }

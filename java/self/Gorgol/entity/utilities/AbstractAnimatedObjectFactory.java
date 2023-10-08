@@ -17,6 +17,7 @@ public abstract class AbstractAnimatedObjectFactory {
     public AbstractAnimatedObjectFactory(float timePerSpawn,
                                          Rectangle spawnArea, float maxSize, float minSize,
                                          int maxEntityPerSpawn) {
+//        this.currentTime = timePerSpawn;
         this.timePerSpawn = timePerSpawn;
         this.spawnArea = spawnArea;
         this.maxSize = maxSize;
@@ -34,16 +35,6 @@ public abstract class AbstractAnimatedObjectFactory {
         return false;
     }
 
-    public final AnimatedObject[] create() {
-        int n = (int) (1 + Math.random() * maxEntityPerSpawn);
-        AnimatedObject[] entities = new AnimatedObject[n];
-
-        for (int i = 0; i < n; i++)
-            entities[i] = createRandomInstance();
-
-        return entities;
-    }
-
     protected final PhysicsBody getRandomPhysicsBody() {
         float width = (float) (minSize + Math.random() * (maxSize - minSize));
         float height = (float) (minSize + Math.random() * (maxSize - minSize));
@@ -56,6 +47,4 @@ public abstract class AbstractAnimatedObjectFactory {
 
         return new PhysicsBody(x, y, width, height, speed);
     }
-
-    protected abstract AnimatedObject createRandomInstance();
 }

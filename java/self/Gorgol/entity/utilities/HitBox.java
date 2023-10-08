@@ -22,4 +22,18 @@ public class HitBox {
     public Rectangle getRectangle() { return new Rectangle((int) x, (int) y, (int) width, (int) height); }
 
     public Vector2f getCenter() { return new Vector2f(x + width / 2, y + height / 2); }
+
+    public float getAngleTo(HitBox another) {
+        Vector2f thisCenter = this.getCenter();
+        Vector2f anotherCenter = another.getCenter();
+
+        float x1 = thisCenter.x;
+        float y1 = thisCenter.y;
+        float x2 = anotherCenter.x;
+        float y2 = anotherCenter.y;
+
+        double angle = Math.PI / 2 + Math.atan2(y2 - y1, x2 - x1);
+
+        return (float) angle;
+    }
 }

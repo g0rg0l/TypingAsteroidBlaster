@@ -2,6 +2,7 @@ package self.Gorgol.engineUtilities;
 
 import self.Gorgol.entity.objects.ObjectController;
 import self.Gorgol.entity.objects.asteroids.AsteroidFactory;
+import self.Gorgol.entity.objects.asteroids.words.WordGenerator;
 import self.Gorgol.entity.objects.background.BackgroundElementFactory;
 
 import javax.swing.*;
@@ -13,12 +14,14 @@ public class GamePanel extends JPanel {
     private final ObjectController objectController;
     private final AsteroidFactory asteroidFactory;
     private final BackgroundElementFactory backgroundElementFactory;
+    private final WordGenerator wordGenerator;
 
     public GamePanel(int width, int height) {
         this.sizes = new Dimension(width, height);
         this.objectController = new ObjectController();
-        this.asteroidFactory = new AsteroidFactory(1, new Rectangle(0, -height, width, 0));
-        this.backgroundElementFactory = new BackgroundElementFactory(15f, new Rectangle(0, -height, width, 0));
+        this.asteroidFactory = new AsteroidFactory(5f, new Rectangle(0, -height, width, 0));
+        this.wordGenerator = new WordGenerator();
+        this.backgroundElementFactory = new BackgroundElementFactory(10f, new Rectangle(0, -height, width, 0));
 
         setupGameLoop();
     }
@@ -48,7 +51,9 @@ public class GamePanel extends JPanel {
     private void update(float dt) {
         objectController.updateObjects(dt);
 
-        if (asteroidFactory.isReadyToCreate(dt)) objectController.add(asteroidFactory.create());
+        if (asteroidFactory.isReadyToCreate(dt)) {
+            objectController.add(wordGenerator.setWords(asteroidFactory.create()));
+        }
         if (backgroundElementFactory.isReadyToCreate(dt)) objectController.add(backgroundElementFactory.create());
     }
 
