@@ -2,6 +2,7 @@ package self.Gorgol.engineUtilities;
 
 import self.Gorgol.entity.objects.ObjectController;
 import self.Gorgol.entity.objects.asteroids.Asteroid;
+import self.Gorgol.entity.objects.bullets.BulletsHolder;
 import self.Gorgol.entity.objects.player.Player;
 import self.Gorgol.entity.objects.asteroids.AsteroidHolder;
 

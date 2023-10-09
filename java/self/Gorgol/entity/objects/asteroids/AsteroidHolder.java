@@ -1,5 +1,6 @@
 package self.Gorgol.entity.objects.asteroids;
 
+import self.Gorgol.entity.objects.bullets.Bullet;
 import self.Gorgol.entity.utilities.HitBox;
 
 import java.awt.*;
@@ -14,7 +15,7 @@ public class AsteroidHolder {
         this.asteroids = new ArrayList<>();
     }
 
-    public void update(float dt, HitBox playerHitBox) {
+    public void update(float dt, HitBox playerHitBox, Bullet[] bullets) {
         for (Iterator<Asteroid> iter = asteroids.iterator(); iter.hasNext();) {
             Asteroid object = iter.next();
 
@@ -23,6 +24,13 @@ public class AsteroidHolder {
             if (object.type == AsteroidType.BASE) {
                 if (object.body.intersects(playerHitBox)) {
                     System.exit(0);
+                }
+
+                for (Bullet bullet : bullets) {
+                    if (object.word.isCompleted() && object.body.intersects(bullet.body)) {
+                        object.explode();
+                        bullet.explode();
+                    }
                 }
 
                 if (object.body.y + object.body.height >= yDeath) {

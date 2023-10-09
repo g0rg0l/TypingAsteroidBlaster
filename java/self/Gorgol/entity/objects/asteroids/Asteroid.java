@@ -24,8 +24,6 @@ public class Asteroid extends AnimatedObject {
 
     @Override
     public void update(float dt) {
-        if (word.isCompleted()) explode();
-
         if (type != AsteroidType.BASE) {
             super.update(dt);
             if (isLastAnimationStep()) type = AsteroidType.EXPLODED;

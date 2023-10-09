@@ -65,16 +65,12 @@ public class Player implements IRenderer, IUpdatable {
     @Override
     public void update(float dt) {
         rotationComponent.update(dt);
-
-        if (rotationComponent.isWaitingForShoot) {
-            canon.shoot();
+        if (rotationComponent.isWaitingForShoot && !canon.isShooting()) {
+            canon.shoot(rotationComponent.getTarget());
         }
 
         canon.update(dt);
-
-        if (!canon.isShooting() && rotationComponent.isWaitingForShoot) {
-            rotationComponent.returnToDefault();
-        }
+        if (!canon.isShooting() && rotationComponent.isWaitingForShoot) rotationComponent.returnToDefault();
 
         /* processing new request to attack */
         if (!rotationComponent.isRotating && !rotationComponent.isReturning &&
@@ -88,4 +84,6 @@ public class Player implements IRenderer, IUpdatable {
         shipEngineFire.setAffineTransform(rotationComponent.getTx());
         canon.setAffineTransform(rotationComponent.getTx());
     }
+
+    public Canon getCanon() { return canon; }
 }

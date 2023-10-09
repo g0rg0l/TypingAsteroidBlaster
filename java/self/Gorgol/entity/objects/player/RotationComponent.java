@@ -38,6 +38,10 @@ public class RotationComponent implements IUpdatable {
 
     public AffineTransform getTx() { return tx; }
 
+    public float getTarget() {
+        return target;
+    }
+
     @Override
     public void update(float dt) {
         if (isRotating || isReturning) {

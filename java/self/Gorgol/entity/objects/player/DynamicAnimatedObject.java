@@ -7,7 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class DynamicAnimatedObject extends AnimatedObject {
-    private AffineTransform tx;
+    protected AffineTransform tx;
     protected BufferedImage croppedImage;
 
     public DynamicAnimatedObject(float x, float y, float width, float height,
@@ -15,7 +15,7 @@ public class DynamicAnimatedObject extends AnimatedObject {
                                  int totalAnimationSteps, float animationTimeStep) {
 
         super(x, y, width, height, image, totalAnimationSteps, animationTimeStep);
-        this.tx = AffineTransform.getTranslateInstance( body.x, body.y);
+        this.tx = AffineTransform.getTranslateInstance(x, y);
     }
 
     public void setAffineTransform(AffineTransform tx) { this.tx = tx; }
