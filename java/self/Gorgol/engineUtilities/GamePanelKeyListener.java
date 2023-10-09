@@ -58,7 +58,7 @@ public class GamePanelKeyListener implements KeyListener {
 
     private void checkWordToComplete() {
         if (selected.word.isCompleted()) {
-            player.attack(player.body.getAngleTo(selected.body));
+            player.attack(selected);
             selected = null;
         }
     }

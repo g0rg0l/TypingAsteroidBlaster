@@ -1,5 +1,6 @@
 package self.Gorgol.entity.objects.player;
 
+import self.Gorgol.entity.objects.asteroids.Asteroid;
 import self.Gorgol.entity.utilities.HitBox;
 import self.Gorgol.entity.utilities.IUpdatable;
 
@@ -10,6 +11,7 @@ public class RotationComponent implements IUpdatable {
     private final AffineTransform tx;
     private final float speed = 16;
     private float target;
+    private Asteroid targetAsteroid;
     private float current;
     private float rotationDelta;
     public boolean isRotating;
@@ -24,8 +26,9 @@ public class RotationComponent implements IUpdatable {
         this.isWaitingForShoot = false;
     }
 
-    public void rotate(float angle) {
-        target = (float) Math.toDegrees(angle);
+    public void rotateTo(Asteroid asteroid) {
+        targetAsteroid = asteroid;
+        target = (float) Math.toDegrees(body.getAngleTo(asteroid.body));
         current = target;
         rotationDelta = target / speed;
         isRotating = true;
@@ -38,8 +41,8 @@ public class RotationComponent implements IUpdatable {
 
     public AffineTransform getTx() { return tx; }
 
-    public float getTarget() {
-        return target;
+    public Asteroid getTarget() {
+        return targetAsteroid;
     }
 
     @Override

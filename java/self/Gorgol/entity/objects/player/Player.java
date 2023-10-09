@@ -1,5 +1,6 @@
 package self.Gorgol.entity.objects.player;
 
+import self.Gorgol.entity.objects.asteroids.Asteroid;
 import self.Gorgol.entity.utilities.HitBox;
 import self.Gorgol.entity.utilities.IRenderer;
 import self.Gorgol.entity.utilities.IUpdatable;
@@ -16,7 +17,7 @@ public class Player implements IRenderer, IUpdatable {
     private Image shipEngine;
     private final DynamicAnimatedObject shipEngineFire;
     private final Canon canon;
-    private final ArrayList<Float> attackStack;
+    private final ArrayList<Asteroid> attackStack;
 
     public final HitBox body;
     private final RotationComponent rotationComponent;
@@ -58,8 +59,8 @@ public class Player implements IRenderer, IUpdatable {
         g2d.drawRect((int) body.x, (int) body.y, (int) body.width, (int) body.height);
     }
 
-    public void attack(float angle) {
-        attackStack.add(angle);
+    public void attack(Asteroid asteroid) {
+        attackStack.add(asteroid);
     }
 
     @Override
@@ -76,7 +77,7 @@ public class Player implements IRenderer, IUpdatable {
         if (!rotationComponent.isRotating && !rotationComponent.isReturning &&
             !canon.isShooting() && !attackStack.isEmpty()) {
 
-            rotationComponent.rotate(attackStack.get(0));
+            rotationComponent.rotateTo(attackStack.get(0));
             attackStack.remove(0);
         }
 

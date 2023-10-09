@@ -22,14 +22,15 @@ public class AsteroidHolder {
             object.update(dt);
 
             if (object.type == AsteroidType.BASE) {
-                if (object.body.intersects(playerHitBox)) {
+                if (object.body.intersects(playerHitBox) && !object.word.isCompleted()) {
                     System.exit(0);
                 }
 
                 for (Bullet bullet : bullets) {
-                    if (object.word.isCompleted() && object.body.intersects(bullet.body)) {
-                        object.explode();
+                    if (bullet.target == object && bullet.body.intersects(object.body)) {
                         bullet.explode();
+                        object.bulletCollided++;
+                        if (object.bulletCollided == 2) object.explode();
                     }
                 }
 

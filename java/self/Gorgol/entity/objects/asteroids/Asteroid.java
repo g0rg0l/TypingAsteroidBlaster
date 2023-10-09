@@ -13,6 +13,7 @@ public class Asteroid extends AnimatedObject {
     public boolean isSelected = false;
     private boolean farFromPlayer = true;
     private Vector2f target;
+    public int bulletCollided = 0;
 
     public Asteroid(float x, float y, float width, float height, float speed,
                     BufferedImage image) {

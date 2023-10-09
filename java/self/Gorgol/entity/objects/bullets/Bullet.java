@@ -1,5 +1,6 @@
 package self.Gorgol.entity.objects.bullets;
 
+import self.Gorgol.entity.objects.asteroids.Asteroid;
 import self.Gorgol.entity.objects.player.DynamicAnimatedObject;
 import self.Gorgol.entity.utilities.Vector2f;
 
@@ -7,12 +8,14 @@ import java.awt.image.BufferedImage;
 
 public class Bullet extends DynamicAnimatedObject {
     private final float angle;
+    public final Asteroid target;
     private boolean isExploded;
 
-    public Bullet(float x, float y, float angleDeg, BufferedImage image) {
+    public Bullet(float x, float y, float angleDeg, Asteroid target, BufferedImage image) {
         super(x, y, 32, 32, image, 4, 0.05f);
         this.body.speed = 5f;
         this.angle = angleDeg;
+        this.target = target;
         this.isExploded = false;
     }
 
