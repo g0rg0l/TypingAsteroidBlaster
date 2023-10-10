@@ -2,6 +2,7 @@ package self.Gorgol.entity.objects.asteroids;
 
 import self.Gorgol.entity.objects.asteroids.words.Word;
 import self.Gorgol.entity.utilities.AnimatedObject;
+import self.Gorgol.entity.utilities.HitBox;
 import self.Gorgol.entity.utilities.Vector2f;
 
 import java.awt.*;
@@ -9,6 +10,7 @@ import java.awt.image.BufferedImage;
 
 public class Asteroid extends AnimatedObject {
     public AsteroidType type;
+    public final HitBox hitBox;
     public Word word = null;
     public boolean isSelected = false;
     private boolean farFromPlayer = true;
@@ -20,6 +22,12 @@ public class Asteroid extends AnimatedObject {
 
         super(x, y, width, height, image, 8, 0.035f);
         this.body.speed = speed;
+
+        final float k = this.body.width / 96f;
+        this.hitBox = new HitBox(
+                this.body.x + 29f *  k, this.body.y + 32 * k,
+                38 * k, 33 * k
+        );
         this.type = AsteroidType.BASE;
     }
 
@@ -49,6 +57,9 @@ public class Asteroid extends AnimatedObject {
         if (isSelected) {
             g.setColor(Color.GRAY);
             g.drawRect((int) body.x, (int) body.y, (int) body.width, (int) body.height);
+
+            g.setColor(Color.RED);
+            g.drawRect((int) hitBox.x, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
         }
     }
 
@@ -66,12 +77,15 @@ public class Asteroid extends AnimatedObject {
     }
 
     public boolean isVisible() {
-        return body.y >= 0;
+        return body.y + body.height >= 0;
     }
 
     private void move(float dx, float dy, float dt) {
         body.x += dx * dt;
         body.y += dy * dt;
+
+        hitBox.x += dx * dt;
+        hitBox.y += dy * dt;
     }
 
     private void moveToTarget(float dt) {
@@ -87,5 +101,8 @@ public class Asteroid extends AnimatedObject {
 
         body.x += body.speed * ndX * dt;
         body.y += body.speed * ndY * dt;
+
+        hitBox.x += body.speed * ndX * dt;
+        hitBox.y += body.speed * ndY * dt;
     }
 }

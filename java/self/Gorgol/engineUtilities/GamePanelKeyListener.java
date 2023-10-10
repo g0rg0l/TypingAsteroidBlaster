@@ -25,33 +25,35 @@ public class GamePanelKeyListener implements KeyListener {
     public void keyTyped(KeyEvent e) {
         char ch = e.getKeyChar();
 
-        /* Selecting */
-        if (selected == null) {
-            Asteroid typed = asteroidHolder.getByFirstChar(ch);
-            /* Unexpected input */
-            if (typed == null) {
+        if (Character.isAlphabetic(ch)) {
+            /* Selecting */
+            if (selected == null) {
+                Asteroid typed = asteroidHolder.getByChar(ch);
+                /* Unexpected input */
+                if (typed == null) {
 
+                }
+                /* Select correctly */
+                else {
+                    typed.isSelected = true;
+                    typed.word.typeNext();
+                    selected = typed;
+                    checkWordToComplete();
+                }
             }
-            /* Select correctly */
+            /* Typing already selected */
             else {
-                typed.isSelected = true;
-                typed.word.typeNext();
-                selected = typed;
-                checkWordToComplete();
-            }
-        }
-        /* Typing already selected */
-        else {
-            /* Process next char */
-            if (selected.word.match(ch)) {
-                selected.word.typeNext();
-                checkWordToComplete();
-            }
+                /* Process next char */
+                if (selected.word.match(ch)) {
+                    selected.word.typeNext();
+                    checkWordToComplete();
+                }
 
-            /* Wrong input, select is lost */
-            else {
-                selected.isSelected = false;
-                selected = null;
+                /* Wrong input, select is lost */
+                else {
+                    selected.isSelected = false;
+                    selected = null;
+                }
             }
         }
     }

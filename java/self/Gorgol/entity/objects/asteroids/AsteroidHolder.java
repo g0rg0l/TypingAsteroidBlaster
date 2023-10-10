@@ -22,19 +22,22 @@ public class AsteroidHolder {
             object.update(dt);
 
             if (object.type == AsteroidType.BASE) {
-                if (object.body.intersects(playerHitBox) && !object.word.isCompleted()) {
+                /* Collision between asteroid and player */
+                if (object.hitBox.intersects(playerHitBox) && !object.word.isCompleted()) {
                     System.exit(0);
                 }
 
+                /* Collision between asteroid and bullet */
                 for (Bullet bullet : bullets) {
-                    if (bullet.target == object && bullet.body.intersects(object.body)) {
+                    if (bullet.target == object && bullet.body.intersects(object.hitBox)) {
                         bullet.explode();
                         object.bulletCollided++;
                         if (object.bulletCollided == 2) object.explode();
                     }
                 }
 
-                if (object.body.y + object.body.height >= yDeath) {
+                /* Detecting does asteroid close to player and is it moving to it */
+                if (object.hitBox.y + object.hitBox.height >= yDeath) {
                     object.markCloseToPlayer(playerHitBox.getCenter());
                 }
             }
@@ -50,10 +53,32 @@ public class AsteroidHolder {
 
     public void add(Asteroid asteroid) { asteroids.add(asteroid); }
 
-    public Asteroid getByFirstChar(char ch) {
-        for (Asteroid asteroid : asteroids)
-            if (asteroid.isVisible() && asteroid.word.match(ch)) return asteroid;
+    public Asteroid getByChar(char ch) {
+        ArrayList<Asteroid> a = getOnlyByChar(ch);
 
-        return null;
+        if (a.isEmpty()) return null;
+        else if (a.size() == 1) return a.get(0);
+        else {
+            float maxY = -1;
+            Asteroid nearest = null;
+
+            for (Asteroid asteroid : a) {
+                if (asteroid.body.y + asteroid.body.height > maxY) {
+                    nearest = asteroid;
+                    maxY = asteroid.body.y + asteroid.body.height;
+                }
+            }
+
+            return nearest;
+        }
+    }
+
+    private ArrayList<Asteroid> getOnlyByChar(char ch) {
+        ArrayList<Asteroid> a = new ArrayList<>();
+
+        for (Asteroid asteroid : asteroids)
+            if (asteroid.isVisible() && asteroid.word.match(ch)) a.add(asteroid);
+
+        return a;
     }
 }

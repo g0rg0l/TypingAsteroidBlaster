@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 public abstract class AbstractAnimatedObjectFactory {
     protected BufferedImage src = null;
-    protected float currentTime = 0;
+    protected float currentTime;
     protected final float timePerSpawn;
     protected final int maxEntityPerSpawn;
 
@@ -17,7 +17,7 @@ public abstract class AbstractAnimatedObjectFactory {
     public AbstractAnimatedObjectFactory(float timePerSpawn,
                                          Rectangle spawnArea, float maxSize, float minSize,
                                          int maxEntityPerSpawn) {
-//        this.currentTime = timePerSpawn;
+        this.currentTime = timePerSpawn;
         this.timePerSpawn = timePerSpawn;
         this.spawnArea = spawnArea;
         this.maxSize = maxSize;

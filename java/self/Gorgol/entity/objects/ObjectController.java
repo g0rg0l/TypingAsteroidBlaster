@@ -40,7 +40,7 @@ public class ObjectController {
     public void updateObjects(float dt) {
         player.update(dt);
         bulletsHolder.update(dt);
-        asteroidHolder.update(dt, player.body, bulletsHolder.getAllBullets());
+        asteroidHolder.update(dt, player.hitBox, bulletsHolder.getAllBullets());
         backgroundElementHolder.update(dt);
         background.update(dt);
     }

@@ -20,11 +20,13 @@ public class Player implements IRenderer, IUpdatable {
     private final ArrayList<Asteroid> attackStack;
 
     public final HitBox body;
+    public final HitBox hitBox;
     private final RotationComponent rotationComponent;
 
 
     public Player(float x, float y, float width, float height) {
         body = new HitBox(x ,y, width, height);
+        hitBox = new HitBox(x + 18 ,y + 22, 60f, 52f);
         this.rotationComponent = new RotationComponent(body);
         this.attackStack = new ArrayList<>();
 
@@ -57,6 +59,9 @@ public class Player implements IRenderer, IUpdatable {
 
         g2d.setColor(Color.GRAY);
         g2d.drawRect((int) body.x, (int) body.y, (int) body.width, (int) body.height);
+
+        g2d.setColor(Color.RED);
+        g2d.drawRect((int) hitBox.x, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
     }
 
     public void attack(Asteroid asteroid) {
