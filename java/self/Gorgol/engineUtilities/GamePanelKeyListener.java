@@ -2,7 +2,6 @@ package self.Gorgol.engineUtilities;
 
 import self.Gorgol.entity.objects.ObjectController;
 import self.Gorgol.entity.objects.asteroids.Asteroid;
-import self.Gorgol.entity.objects.bullets.BulletsHolder;
 import self.Gorgol.entity.objects.player.Player;
 import self.Gorgol.entity.objects.asteroids.AsteroidHolder;
 
@@ -12,6 +11,7 @@ import java.awt.event.KeyListener;
 public class GamePanelKeyListener implements KeyListener {
     private final Player player;
     private final AsteroidHolder asteroidHolder;
+    private final CrossHair crossHair;
 
     private Asteroid selected = null;
 
@@ -19,6 +19,7 @@ public class GamePanelKeyListener implements KeyListener {
         ObjectController objectController = panel.getObjectController();
         this.player = objectController.getPlayer();
         this.asteroidHolder = objectController.getAsteroidHolder();
+        this.crossHair = objectController.getCrossHair();
     }
 
     @Override
@@ -35,7 +36,7 @@ public class GamePanelKeyListener implements KeyListener {
                 }
                 /* Select correctly */
                 else {
-                    typed.isSelected = true;
+                    crossHair.callToAsteroid(typed);
                     typed.word.typeNext();
                     selected = typed;
                     checkWordToComplete();
@@ -51,17 +52,10 @@ public class GamePanelKeyListener implements KeyListener {
 
                 /* Wrong input, select is lost */
                 else {
-                    selected.isSelected = false;
+                    crossHair.unCall();
                     selected = null;
                 }
             }
-        }
-    }
-
-    private void checkWordToComplete() {
-        if (selected.word.isCompleted()) {
-            player.attack(selected);
-            selected = null;
         }
     }
 
@@ -70,4 +64,12 @@ public class GamePanelKeyListener implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {}
+
+    private void checkWordToComplete() {
+        if (selected.word.isCompleted()) {
+            player.attack(selected);
+            crossHair.unCall();
+            selected = null;
+        }
+    }
 }

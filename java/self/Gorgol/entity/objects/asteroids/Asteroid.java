@@ -12,7 +12,6 @@ public class Asteroid extends AnimatedObject {
     public AsteroidType type;
     public final HitBox hitBox;
     public Word word = null;
-    public boolean isSelected = false;
     private boolean farFromPlayer = true;
     private Vector2f target;
     public int bulletCollided = 0;
@@ -53,20 +52,11 @@ public class Asteroid extends AnimatedObject {
 
         g.drawString(word.getAlivePart(), (int) (body.x + body.width / 2 - stringWidth / 2),
                 (int) (body.y + body.height - stringHeight));
-
-        if (isSelected) {
-            g.setColor(Color.GRAY);
-            g.drawRect((int) body.x, (int) body.y, (int) body.width, (int) body.height);
-
-            g.setColor(Color.RED);
-            g.drawRect((int) hitBox.x, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
-        }
     }
 
     public void explode() {
         type = AsteroidType.EXPLODING;
     }
-
     public void markCloseToPlayer(Vector2f playerCenterPosition) {
         farFromPlayer = false;
         target = playerCenterPosition;

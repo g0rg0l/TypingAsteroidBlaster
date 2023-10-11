@@ -53,15 +53,9 @@ public class Player implements IRenderer, IUpdatable {
         Graphics2D g2d = (Graphics2D) g;
 
         shipEngineFire.render(g);
+        canon.render(g);
         g2d.drawImage(shipImage, rotationComponent.getTx(), null);
         g2d.drawImage(shipEngine, rotationComponent.getTx(), null);
-        canon.render(g);
-
-        g2d.setColor(Color.GRAY);
-        g2d.drawRect((int) body.x, (int) body.y, (int) body.width, (int) body.height);
-
-        g2d.setColor(Color.RED);
-        g2d.drawRect((int) hitBox.x, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
     }
 
     public void attack(Asteroid asteroid) {

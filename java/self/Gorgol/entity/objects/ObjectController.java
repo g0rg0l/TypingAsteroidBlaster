@@ -1,5 +1,6 @@
 package self.Gorgol.entity.objects;
 
+import self.Gorgol.engineUtilities.CrossHair;
 import self.Gorgol.entity.objects.asteroids.Asteroid;
 import self.Gorgol.entity.objects.asteroids.AsteroidHolder;
 import self.Gorgol.entity.objects.background.Background;
@@ -9,7 +10,11 @@ import self.Gorgol.entity.objects.bullets.Bullet;
 import self.Gorgol.entity.objects.bullets.BulletsHolder;
 import self.Gorgol.entity.objects.player.Player;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 
 public class ObjectController {
@@ -18,6 +23,7 @@ public class ObjectController {
     private final BulletsHolder bulletsHolder;
     private final Player player;
     private final Background background;
+    private final CrossHair crossHair;
 
     public ObjectController() {
         this.player = new Player(650 / 2.f - 48, 850 - 96.f, 96.f, 96.f);
@@ -27,6 +33,11 @@ public class ObjectController {
         this.background = new Background(0, 0, 650, 850, 35);
         this.asteroidHolder = new AsteroidHolder();
         this.backgroundElementHolder = new BackgroundElementHolder();
+
+        try {
+            BufferedImage chImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/crosshair.png")));
+            this.crossHair = new CrossHair(chImage);
+        } catch (IOException ex) { throw new RuntimeException(); }
     }
 
     public void renderObjects(Graphics g) {
@@ -35,6 +46,7 @@ public class ObjectController {
         player.render(g);
         asteroidHolder.render(g);
         bulletsHolder.render(g);
+        crossHair.render(g);
     }
 
     public void updateObjects(float dt) {
@@ -43,6 +55,7 @@ public class ObjectController {
         asteroidHolder.update(dt, player.hitBox, bulletsHolder.getAllBullets());
         backgroundElementHolder.update(dt);
         background.update(dt);
+        crossHair.update(dt);
     }
 
     public void add(Object object)  {
@@ -55,4 +68,5 @@ public class ObjectController {
 
     public Player getPlayer() { return player; }
     public AsteroidHolder getAsteroidHolder() { return asteroidHolder; }
+    public CrossHair getCrossHair() { return crossHair; }
 }
