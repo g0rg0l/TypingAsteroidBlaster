@@ -1,7 +1,6 @@
 package self.Gorgol.entity.objects.asteroids.words;
 
 import self.Gorgol.entity.objects.asteroids.Asteroid;
-import self.Gorgol.entity.utilities.AnimatedObject;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,32 +14,38 @@ public class WordGenerator {
         try {
             BufferedReader bf = new BufferedReader(
                     new InputStreamReader(
-                            Objects.requireNonNull(getClass().getResource("/language/russian.txt")).openStream()
-                    ));
+                            Objects.requireNonNull(getClass().getResource("/language/cool.txt")).openStream()
+            ));
 
             this.words = new ArrayList<>();
 
             String line;
-            while ((line = bf.readLine()) != null) { words.add(line); }
+            while ((line = bf.readLine()) != null)
+                words.add(line);
+
             bf.close();
 
         } catch (IOException e) { throw new RuntimeException(e); }
     }
 
-    public Asteroid[] setWords(Asteroid[] asteroids) {
-        Word[] exWords = new Word[asteroids.length];
+    public Asteroid[] setWords(Asteroid[] asteroids, Word[] aliveWords) {
+        Word[] bunchWords = new Word[asteroids.length];
 
-        for (int i = 0; i < exWords.length; i++) {
+        for (int i = 0; i < bunchWords.length; i++) {
+            /* creating new available word */
             Word word = create();
-            while (!isAvailable(word, exWords)) word = create();
-            exWords[i] = word;
+            while(isNotAvailable(word, bunchWords) || isNotAvailable(word, aliveWords))
+                word = create();
+
+            /* setting up */
+            bunchWords[i] = word;
             asteroids[i].setWord(word);
         }
 
         return asteroids;
     }
 
-    public Word create() {
+    private Word create() {
         return new Word(getRandomStringWord());
     }
 
@@ -48,10 +53,17 @@ public class WordGenerator {
         return words.get((int) (Math.random() * words.size()));
     }
 
-    private boolean isAvailable(Word word, Word[] existing) {
-        for (Word ex : existing)
-            if (ex != null && ex.string.substring(0, 2).equals(word.string.substring(0, 2))) return false;
+    private boolean isNotAvailable(Word word, Word[] bunchWords) {
+        for (Word ex : bunchWords)
+            if (ex != null) {
+                String e = ex.string;
+                String w = word.string;
 
-        return true;
+                if (e.charAt(0) == w.charAt(0)) return true;                  // The same first character
+                if (e.substring(0, 2).equals(w.substring(0, 2))) return true; // The same start of length 2
+                if (e.equals(w)) return true;                                 // The same words
+            }
+
+        return false;
     }
 }

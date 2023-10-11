@@ -1,5 +1,6 @@
 package self.Gorgol.entity.objects.asteroids;
 
+import self.Gorgol.entity.objects.asteroids.words.Word;
 import self.Gorgol.entity.objects.bullets.Bullet;
 import self.Gorgol.entity.utilities.HitBox;
 
@@ -71,6 +72,15 @@ public class AsteroidHolder {
 
             return nearest;
         }
+    }
+
+    public Word[] getAllAliveWords() {
+        Word[] words = new Word[asteroids.size()];
+
+        for (int i = 0; i < asteroids.size(); i++)
+            words[i] = asteroids.get(i).word;
+
+        return words;
     }
 
     private ArrayList<Asteroid> getOnlyByChar(char ch) {

@@ -23,7 +23,7 @@ public class GamePanelKeyListener implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        char ch = e.getKeyChar();
+        char ch = Character.toLowerCase(e.getKeyChar());
 
         if (Character.isAlphabetic(ch)) {
             /* Selecting */

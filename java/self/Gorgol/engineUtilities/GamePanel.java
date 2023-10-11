@@ -51,9 +51,15 @@ public class GamePanel extends JPanel {
     private void update(float dt) {
         objectController.updateObjects(dt);
 
+        /* creating asteroids */
         if (asteroidFactory.isReadyToCreate(dt)) {
-            objectController.add(wordGenerator.setWords(asteroidFactory.create()));
+            objectController.add(wordGenerator.setWords(
+                    asteroidFactory.create(),
+                    objectController.getAsteroidHolder().getAllAliveWords()
+            ));
         }
+
+        /* creating background elements */
         if (backgroundElementFactory.isReadyToCreate(dt)) objectController.add(backgroundElementFactory.create());
     }
 
