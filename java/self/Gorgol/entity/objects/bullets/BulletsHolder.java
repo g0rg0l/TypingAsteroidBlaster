@@ -1,5 +1,9 @@
 package self.Gorgol.entity.objects.bullets;
 
+import self.Gorgol.effects.EffectsFactory;
+import self.Gorgol.effects.EffectsHolder;
+import self.Gorgol.effects.EffectsType;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,7 +22,16 @@ public class BulletsHolder {
             if (!bullet.isExploded()) {
                 bullet.update(dt);
             }
-            else iterator.remove();
+            else {
+                /* calling bullet explode effect in the place on dead bullet */
+                EffectsHolder.INSTANCE.add(EffectsFactory.INSTANCE.create(
+                        EffectsType.BULLET_EXPLODE,
+                        bullet.hitBox.x, bullet.hitBox.y,
+                        bullet.body.width, bullet.body.height
+                ));
+
+                iterator.remove();
+            }
         }
     }
 

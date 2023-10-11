@@ -30,7 +30,7 @@ public class AsteroidHolder {
 
                 /* Collision between asteroid and bullet */
                 for (Bullet bullet : bullets) {
-                    if (bullet.target == object && bullet.body.intersects(object.hitBox)) {
+                    if (bullet.target == object && bullet.hitBox.intersects(object.hitBox)) {
                         bullet.explode();
                         object.bulletCollided++;
                         if (object.bulletCollided == 2) object.explode();

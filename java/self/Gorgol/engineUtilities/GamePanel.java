@@ -1,5 +1,7 @@
 package self.Gorgol.engineUtilities;
 
+import self.Gorgol.effects.EffectsFactory;
+import self.Gorgol.effects.EffectsHolder;
 import self.Gorgol.entity.objects.ObjectController;
 import self.Gorgol.entity.objects.asteroids.AsteroidFactory;
 import self.Gorgol.entity.objects.asteroids.words.WordGenerator;
@@ -15,6 +17,8 @@ public class GamePanel extends JPanel {
     private final AsteroidFactory asteroidFactory;
     private final BackgroundElementFactory backgroundElementFactory;
     private final WordGenerator wordGenerator;
+    private final EffectsHolder effectsHolder;
+
 
     public GamePanel(int width, int height) {
         this.sizes = new Dimension(width, height);
@@ -22,6 +26,7 @@ public class GamePanel extends JPanel {
         this.asteroidFactory = new AsteroidFactory(5f, new Rectangle(0, -height, width, 0));
         this.wordGenerator = new WordGenerator();
         this.backgroundElementFactory = new BackgroundElementFactory(10f, new Rectangle(0, -height, width, 0));
+        this.effectsHolder = EffectsHolder.INSTANCE;
 
         setupGameLoop();
     }
@@ -43,6 +48,7 @@ public class GamePanel extends JPanel {
         g.fillRect(0, 0, sizes.width, sizes.height);
 
         objectController.renderObjects(g);
+        effectsHolder.render(g);
     }
 
     /**
@@ -61,6 +67,9 @@ public class GamePanel extends JPanel {
 
         /* creating background elements */
         if (backgroundElementFactory.isReadyToCreate(dt)) objectController.add(backgroundElementFactory.create());
+
+        /* creating and dissolving effects */
+        effectsHolder.update(dt);
     }
 
     /**

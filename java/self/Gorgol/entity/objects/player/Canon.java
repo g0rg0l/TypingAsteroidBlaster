@@ -23,12 +23,12 @@ public class Canon extends DynamicAnimatedObject {
     private BulletsHolder bulletsHolder;
 
     public Canon(float x, float y, float width, float height, BufferedImage image) {
-        super(x, y, width, height, image, 7, 0.05f);
+        super(x, y, width, height, image, 7, 0.08f);
         this.isShooting = false;
-        this.firstShootTime = 0.1f;
-        this.secondShootTime = 0.15f;
+        this.firstShootTime = 0.16f;
+        this.secondShootTime = 0.24f;
         this.currentShootTime = 0;
-        this.bulletsCount = 0;
+        this.bulletsCount = 2;
         this.croppedImage = image.getSubimage(
                 currentAnimationStep * animationStepPixelSize, 0,
                 animationStepPixelSize, image.getHeight()
