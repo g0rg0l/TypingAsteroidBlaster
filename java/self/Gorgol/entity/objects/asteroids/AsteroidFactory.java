@@ -23,16 +23,28 @@ public class AsteroidFactory extends AbstractAnimatedObjectFactory {
         int n = (int) (1 + Math.random() * maxEntityPerSpawn);
         Asteroid[] entities = new Asteroid[n];
 
-        for (int i = 0; i < n; i++)
-            entities[i] = createRandomInstance();
+        for (int i = 0; i < n; i++) {
+            Asteroid asteroid = createRandomInstance();
+            while (!isAvailable(asteroid, entities)) asteroid = createRandomInstance();
+
+            entities[i] = asteroid;
+        }
 
         return entities;
     }
 
-    protected Asteroid createRandomInstance() {
+    private Asteroid createRandomInstance() {
         PhysicsBody randomBody = getRandomPhysicsBody();
         float size = randomBody.width;
 
         return new Asteroid(randomBody.x, randomBody.y, size, size, randomBody.speed, src);
+    }
+
+    private boolean isAvailable(Asteroid asteroid, Asteroid[] existing) {
+        for (Asteroid ex : existing) {
+            if (ex != null && ex.body.intersects(asteroid.body)) return false;
+        }
+
+        return true;
     }
 }

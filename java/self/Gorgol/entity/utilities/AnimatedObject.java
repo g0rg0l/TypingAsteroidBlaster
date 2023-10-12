@@ -10,7 +10,7 @@ public class AnimatedObject implements IRenderer, IUpdatable {
     protected final float animationTimeStep;
     protected float currentAnimationTime;
     protected final int animationStepPixelSize;
-    protected final BufferedImage image;
+    protected BufferedImage image;
     public final PhysicsBody body;
 
     public AnimatedObject(float x, float y, float width, float height, BufferedImage image,

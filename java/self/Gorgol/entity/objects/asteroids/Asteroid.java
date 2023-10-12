@@ -5,8 +5,11 @@ import self.Gorgol.entity.utilities.AnimatedObject;
 import self.Gorgol.entity.utilities.HitBox;
 import self.Gorgol.entity.utilities.Vector2f;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 public class Asteroid extends AnimatedObject {
     public AsteroidType type;
@@ -15,6 +18,8 @@ public class Asteroid extends AnimatedObject {
     private boolean farFromPlayer = true;
     private Vector2f target;
     public int bulletCollided = 0;
+
+    private Font textFont;
 
     public Asteroid(float x, float y, float width, float height, float speed,
                     BufferedImage image) {
@@ -28,6 +33,11 @@ public class Asteroid extends AnimatedObject {
                 38 * k, 33 * k
         );
         this.type = AsteroidType.BASE;
+
+        try {
+            textFont = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(Asteroid.class.getResourceAsStream("/fonts/better-vcr4.0.ttf")));
+            textFont = textFont.deriveFont(12f);
+        } catch (FontFormatException | IOException ex) { throw new RuntimeException(); }
     }
 
     @Override
@@ -46,12 +56,28 @@ public class Asteroid extends AnimatedObject {
     public void render(Graphics g) {
         super.render(g);
 
+        g.setFont(textFont);
 
-        int stringWidth = g.getFontMetrics().stringWidth(word.string);
-        int stringHeight = g.getFontMetrics().getHeight();
+        FontMetrics m = g.getFontMetrics();
+        int stringAliveWidth = m.stringWidth(word.getAlivePart());
+        int stringDeadWidth = m.stringWidth(word.getDeadPart());
+        int stringHeight = m.getHeight();
+        int totalWidth = stringAliveWidth + stringDeadWidth;
 
-        g.drawString(word.getAlivePart(), (int) (body.x + body.width / 2 - stringWidth / 2),
-                (int) (body.y + body.height - stringHeight));
+        int posX = (int) (body.x + body.width / 2);
+        int posY = (int) (body.y + body.height - stringHeight);
+
+        g.setColor(Color.DARK_GRAY);
+        g.drawString(word.getDeadPart(),
+                posX - totalWidth / 2,
+                posY
+        );
+
+        g.setColor(Color.WHITE);
+        g.drawString(word.getAlivePart(),
+                posX - totalWidth / 2 + stringDeadWidth,
+                posY
+        );
     }
 
     public void explode() {

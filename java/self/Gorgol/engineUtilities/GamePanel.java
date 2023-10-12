@@ -68,7 +68,7 @@ public class GamePanel extends JPanel {
         /* creating background elements */
         if (backgroundElementFactory.isReadyToCreate(dt)) objectController.add(backgroundElementFactory.create());
 
-        /* creating and dissolving effects */
+        /* dissolving effects */
         effectsHolder.update(dt);
     }
 

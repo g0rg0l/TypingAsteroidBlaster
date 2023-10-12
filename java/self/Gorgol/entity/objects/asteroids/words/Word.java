@@ -11,6 +11,9 @@ public class Word {
     public String getAlivePart() {
         return string.substring(typedChars);
     }
+    public String getDeadPart() {
+        return string.substring(0, typedChars);
+    }
 
     public boolean match(char ch) {
         return !isCompleted() && string.substring(typedChars).charAt(0) == ch;

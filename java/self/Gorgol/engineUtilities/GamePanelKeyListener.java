@@ -52,7 +52,7 @@ public class GamePanelKeyListener implements KeyListener {
 
                 /* Wrong input, select is lost */
                 else {
-                    crossHair.unCall();
+                    crossHair.incorrectUnCall();
                     selected = null;
                 }
             }
@@ -68,7 +68,7 @@ public class GamePanelKeyListener implements KeyListener {
     private void checkWordToComplete() {
         if (selected.word.isCompleted()) {
             player.attack(selected);
-            crossHair.unCall();
+            crossHair.simpleUnCall();
             selected = null;
         }
     }

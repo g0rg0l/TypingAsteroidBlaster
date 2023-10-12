@@ -16,7 +16,7 @@ public class Bullet extends DynamicAnimatedObject {
     public Bullet(float x, float y, float angleDeg, Asteroid target, BufferedImage image) {
         super(x, y, 32, 32, image, 4, 0.05f);
         this.body.speed = 5f;
-        this.angle = angleDeg;
+        this.angle = angleDeg > 0 ? angleDeg + 1.f : angleDeg - 1.f;
         this.target = target;
         this.isExploded = false;
         this.hitBox = new HitBox(x + 11 ,y + 8, 10f, 12f);
