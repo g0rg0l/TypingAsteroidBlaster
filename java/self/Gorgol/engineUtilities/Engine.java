@@ -1,36 +1,33 @@
 package self.Gorgol.engineUtilities;
 
+import self.Gorgol.ui.MainMenuPanel;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class Engine implements IEngineParams {
+public class Engine {
     private final JFrame frame;
-    private final GamePanel scene;
+    private final GamePanel gamePanel;
     private final GamePanelKeyListener gamePanelKeyListener;
 
     public Engine() {
-        this.frame = new JFrame(IEngineParams.TITLE);
-        this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.frame.setSize(IEngineParams.WINDOW_WIDTH, IEngineParams.WINDOW_HEIGHT);
+        frame = new JFrame("Game");
 
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.frame.setLocation(
-                dim.width / 2 - IEngineParams.WINDOW_WIDTH / 2,
-                dim.height / 2 - IEngineParams.WINDOW_HEIGHT / 2
-        );
+        gamePanel = new GamePanel(650, 850);
+        frame.add(gamePanel, BorderLayout.CENTER);
 
-        this.scene = new GamePanel(IEngineParams.WINDOW_WIDTH, IEngineParams.WINDOW_HEIGHT);
-        this.gamePanelKeyListener = new GamePanelKeyListener(this.scene);
-        this.frame.addKeyListener(gamePanelKeyListener);
+        gamePanelKeyListener = new GamePanelKeyListener(gamePanel);
+        frame.addKeyListener(gamePanelKeyListener);
 
-        this.frame.add(this.scene);
-
-        frame.setUndecorated(true);
+        frame.pack();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
         frame.setVisible(true);
     }
 
     public void runEngine() {
-        scene.runGameLoop();
+        gamePanel.runGameLoop();
     }
 
 }

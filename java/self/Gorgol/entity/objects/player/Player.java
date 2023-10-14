@@ -39,7 +39,7 @@ public class Player implements IRenderer, IUpdatable {
             shipEngine = shipEngine.getScaledInstance((int) body.width, (int) body.height, Image.SCALE_DEFAULT);
         } catch (IOException ex) { throw new RuntimeException(); }
         try {
-            BufferedImage shipEngineFireImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/engine effect idle1.png")));
+            BufferedImage shipEngineFireImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/engine effect idle.png")));
             shipEngineFire = new DynamicAnimatedObject(x, y, width, height, shipEngineFireImage, 3, 0.035f);
         } catch (IOException ex) { throw new RuntimeException(); }
         try {

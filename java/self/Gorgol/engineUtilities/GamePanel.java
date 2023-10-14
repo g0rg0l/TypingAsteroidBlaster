@@ -1,6 +1,5 @@
 package self.Gorgol.engineUtilities;
 
-import self.Gorgol.effects.EffectsFactory;
 import self.Gorgol.effects.EffectsHolder;
 import self.Gorgol.entity.objects.ObjectController;
 import self.Gorgol.entity.objects.asteroids.AsteroidFactory;
@@ -11,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel {
-    private final Dimension sizes;
+    public final Dimension sizes;
     private Thread gameLoop;
     private final ObjectController objectController;
     private final AsteroidFactory asteroidFactory;
@@ -21,7 +20,11 @@ public class GamePanel extends JPanel {
 
 
     public GamePanel(int width, int height) {
+        /* panel visualization settings */
         this.sizes = new Dimension(width, height);
+        setPreferredSize(this.sizes);
+        /* ---------------------------- */
+
         this.objectController = new ObjectController();
         this.asteroidFactory = new AsteroidFactory(5f, new Rectangle(0, -height, width, 0));
         this.wordGenerator = new WordGenerator();
