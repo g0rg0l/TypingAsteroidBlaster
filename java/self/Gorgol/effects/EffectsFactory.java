@@ -11,7 +11,7 @@ public class EffectsFactory {
 
     private EffectsFactory() {
         try {
-            bulletExplodeSrc = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/bullet explode.png")));
+            bulletExplodeSrc = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/shooting/bullet explode.png")));
         }
         catch (IOException ex) { throw new RuntimeException(); }
     }

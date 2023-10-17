@@ -31,19 +31,19 @@ public class Player implements IRenderer, IUpdatable {
         this.attackStack = new ArrayList<>();
 
         try {
-            shipImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/ship.png")));
+            shipImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/player and stuff/ship.png")));
             shipImage = shipImage.getScaledInstance((int) body.width, (int) body.height, Image.SCALE_DEFAULT);
         } catch (IOException ex) { throw new RuntimeException(); }
         try {
-            shipEngine = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/engine.png")));
+            shipEngine = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/player and stuff/engine.png")));
             shipEngine = shipEngine.getScaledInstance((int) body.width, (int) body.height, Image.SCALE_DEFAULT);
         } catch (IOException ex) { throw new RuntimeException(); }
         try {
-            BufferedImage shipEngineFireImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/engine effect idle.png")));
+            BufferedImage shipEngineFireImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/player and stuff/engine effect idle.png")));
             shipEngineFire = new DynamicAnimatedObject(x, y, width, height, shipEngineFireImage, 3, 0.035f);
         } catch (IOException ex) { throw new RuntimeException(); }
         try {
-            BufferedImage canonImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/canon.png")));
+            BufferedImage canonImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/player and stuff/canon.png")));
             canon = new Canon(x, y, width, height, canonImage);
         } catch (IOException ex) { throw new RuntimeException(); }
     }

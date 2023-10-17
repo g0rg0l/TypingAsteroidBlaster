@@ -11,6 +11,7 @@ import java.util.Iterator;
 public class AsteroidHolder {
     private final ArrayList<Asteroid> asteroids;
     private final float yDeath = 600;
+    public boolean collidedWithPlayer = false;
 
     public AsteroidHolder() {
         this.asteroids = new ArrayList<>();
@@ -25,7 +26,7 @@ public class AsteroidHolder {
             if (object.type == AsteroidType.BASE) {
                 /* Collision between asteroid and player */
                 if (object.hitBox.intersects(playerHitBox) && !object.word.isCompleted()) {
-                    System.exit(0);
+                    collidedWithPlayer = true;
                 }
 
                 /* Collision between asteroid and bullet */

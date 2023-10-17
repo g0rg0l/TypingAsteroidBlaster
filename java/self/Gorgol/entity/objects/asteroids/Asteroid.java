@@ -19,10 +19,10 @@ public class Asteroid extends AnimatedObject {
     private Vector2f target;
     public int bulletCollided = 0;
 
-    private Font textFont;
+    private final Font font;
 
     public Asteroid(float x, float y, float width, float height, float speed,
-                    BufferedImage image) {
+                    BufferedImage image, Font font) {
 
         super(x, y, width, height, image, 8, 0.035f);
         this.body.speed = speed;
@@ -33,11 +33,7 @@ public class Asteroid extends AnimatedObject {
                 38 * k, 33 * k
         );
         this.type = AsteroidType.BASE;
-
-        try {
-            textFont = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(Asteroid.class.getResourceAsStream("/fonts/better-vcr4.0.ttf")));
-            textFont = textFont.deriveFont(12f);
-        } catch (FontFormatException | IOException ex) { throw new RuntimeException(); }
+        this.font = font;
     }
 
     @Override
@@ -56,7 +52,7 @@ public class Asteroid extends AnimatedObject {
     public void render(Graphics g) {
         super.render(g);
 
-        g.setFont(textFont);
+        g.setFont(font);
 
         FontMetrics m = g.getFontMetrics();
         int stringAliveWidth = m.stringWidth(word.getAlivePart());

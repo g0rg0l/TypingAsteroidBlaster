@@ -1,4 +1,4 @@
-package self.Gorgol.engineUtilities;
+package self.Gorgol.entity.objects;
 
 import self.Gorgol.entity.objects.asteroids.Asteroid;
 import self.Gorgol.entity.utilities.AnimatedObject;
@@ -29,7 +29,7 @@ public class CrossHair extends AnimatedObject {
         this.baseImage = image;
 
         try {
-            incorrectCrossHairSrc = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/crosshair red.png")));
+            incorrectCrossHairSrc = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/player and stuff/crosshair red.png")));
         } catch (IOException ex) { throw new RuntimeException(); }
     }
 

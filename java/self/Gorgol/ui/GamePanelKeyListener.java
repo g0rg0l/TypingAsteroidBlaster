@@ -1,5 +1,6 @@
-package self.Gorgol.engineUtilities;
+package self.Gorgol.ui;
 
+import self.Gorgol.entity.objects.CrossHair;
 import self.Gorgol.entity.objects.ObjectController;
 import self.Gorgol.entity.objects.asteroids.Asteroid;
 import self.Gorgol.entity.objects.player.Player;
@@ -15,7 +16,7 @@ public class GamePanelKeyListener implements KeyListener {
 
     private Asteroid selected = null;
 
-    public GamePanelKeyListener(GamePanel panel) {
+    public GamePanelKeyListener(Game panel) {
         ObjectController objectController = panel.getObjectController();
         this.player = objectController.getPlayer();
         this.asteroidHolder = objectController.getAsteroidHolder();

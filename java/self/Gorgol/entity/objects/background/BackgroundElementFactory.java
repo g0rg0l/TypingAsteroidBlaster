@@ -23,31 +23,31 @@ public class BackgroundElementFactory extends AbstractAnimatedObjectFactory {
     public BackgroundElementFactory(float timePerSpawn, Rectangle spawnArea) {
         super(timePerSpawn, spawnArea, 150, 75, 3);
 
-        try {this.bigBlueStarSrc = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/big blue star.png")));}
+        try {this.bigBlueStarSrc = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/background/big blue star.png")));}
         catch (IOException e) { throw new RuntimeException(); }
 
-        try {this.bigRedStarSrc = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/big red star.png")));}
+        try {this.bigRedStarSrc = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/background/big red star.png")));}
         catch (IOException e) { throw new RuntimeException(); }
 
-        try {this.blackHoleSrc = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/black hole.png")));}
+        try {this.blackHoleSrc = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/background/black hole.png")));}
         catch (IOException e) { throw new RuntimeException(); }
 
-        try {this.rotaryStarSrc = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/rotary star.png")));}
+        try {this.rotaryStarSrc = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/background/rotary star.png")));}
         catch (IOException e) { throw new RuntimeException(); }
 
-        try {this.smallRotaryStarSrc = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/small rotary star.png")));}
+        try {this.smallRotaryStarSrc = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/background/small rotary star.png")));}
         catch (IOException e) { throw new RuntimeException(); }
 
-        try {this.planet1Src = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/planet_1.png")));}
+        try {this.planet1Src = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/background/planet_1.png")));}
         catch (IOException e) { throw new RuntimeException(); }
 
-        try {this.planet2Src = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/planet_2.png")));}
+        try {this.planet2Src = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/background/planet_2.png")));}
         catch (IOException e) { throw new RuntimeException(); }
 
-        try {this.planet3Src = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/planet_3.png")));}
+        try {this.planet3Src = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/background/planet_3.png")));}
         catch (IOException e) { throw new RuntimeException(); }
 
-        try {this.planet4Src = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/planet_4.png")));}
+        try {this.planet4Src = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/background/planet_4.png")));}
         catch (IOException e) { throw new RuntimeException(); }
     }
 

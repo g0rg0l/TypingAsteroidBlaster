@@ -18,7 +18,7 @@ public class Background implements IUpdatable, IRenderer {
         this.body = new PhysicsBody(x, y, width, height, speed);
 
         try {
-            this.src = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/static background.png")));
+            this.src = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/background/static background.png")));
         } catch (IOException e) { throw new RuntimeException(e); }
     }
 

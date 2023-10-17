@@ -1,4 +1,4 @@
-package self.Gorgol.engineUtilities;
+package self.Gorgol.ui;
 
 import self.Gorgol.effects.EffectsHolder;
 import self.Gorgol.entity.objects.ObjectController;
@@ -8,8 +8,11 @@ import self.Gorgol.entity.objects.background.BackgroundElementFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
-public class GamePanel extends JPanel {
+public class Game extends JPanel {
     public final Dimension sizes;
     private Thread gameLoop;
     private final ObjectController objectController;
@@ -17,13 +20,15 @@ public class GamePanel extends JPanel {
     private final BackgroundElementFactory backgroundElementFactory;
     private final WordGenerator wordGenerator;
     private final EffectsHolder effectsHolder;
+    private final ActionListener actionListener;
+    private JButton restartGameButton;
 
 
-    public GamePanel(int width, int height) {
-        /* panel visualization settings */
+    public Game(int width, int height, ActionListener actionListener) {
+        super();
         this.sizes = new Dimension(width, height);
-        setPreferredSize(this.sizes);
-        /* ---------------------------- */
+        this.actionListener = actionListener;
+        createGUI();
 
         this.objectController = new ObjectController();
         this.asteroidFactory = new AsteroidFactory(5f, new Rectangle(0, -height, width, 0));
@@ -88,34 +93,63 @@ public class GamePanel extends JPanel {
             long currTime = System.currentTimeMillis();
 
             while (true) {
-                long now = System.nanoTime();
-                long elapsedTime = System.currentTimeMillis() - currTime;
-                currTime += elapsedTime;
+                if (!objectController.getAsteroidHolder().collidedWithPlayer) {
+                    long now = System.nanoTime();
+                    long elapsedTime = System.currentTimeMillis() - currTime;
+                    currTime += elapsedTime;
 
-                /* Updating (can be more than 1 times if that needed) */
-                int updateCount = 0;
-                while (now - lastUpdateTime >= TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BETWEEN_RENDER) {
-                    float dt = (float) elapsedTime / 1000;
-                    this.update(dt);
-                    lastUpdateTime += TIME_BETWEEN_UPDATES;
-                    updateCount++;
-                }
+                    /* Updating (can be more than 1 times if that needed) */
+                    int updateCount = 0;
+                    while (now - lastUpdateTime >= TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BETWEEN_RENDER) {
+                        float dt = (float) elapsedTime / 1000;
+                        this.update(dt);
+                        lastUpdateTime += TIME_BETWEEN_UPDATES;
+                        updateCount++;
+                    }
 
-                /* Waiting for needed time to this frame */
-                if (now - lastUpdateTime >= TIME_BETWEEN_UPDATES) {
-                    lastUpdateTime = now - TIME_BETWEEN_UPDATES;
-                }
+                    if (objectController.getAsteroidHolder().collidedWithPlayer) {
+                        showEndGameGUI();
+                    }
 
-                /* Rendering */
-                this.repaint();
+                    /* Waiting for needed time to this frame */
+                    if (now - lastUpdateTime >= TIME_BETWEEN_UPDATES) {
+                        lastUpdateTime = now - TIME_BETWEEN_UPDATES;
+                    }
 
-                /* Yielding thread while possible */
-                long lastRenderTime = now;
-                while (now - lastRenderTime < TIME_BETWEEN_UPDATES && now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
-                    Thread.yield();
-                    now = System.nanoTime();
+                    /* Rendering */
+                    this.repaint();
+
+                    /* Yielding thread while possible */
+                    long lastRenderTime = now;
+                    while (now - lastRenderTime < TIME_BETWEEN_UPDATES && now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
+                        Thread.yield();
+                        now = System.nanoTime();
+                    }
                 }
             }
         });
+    }
+
+    private void createGUI() {
+        setPreferredSize(this.sizes);
+
+        this.addComponentListener( new ComponentAdapter() {
+            @Override
+            public void componentShown( ComponentEvent e ) {
+                Game.this.requestFocusInWindow();
+            }
+        });
+
+        restartGameButton = new JButton("End game");
+        restartGameButton.addActionListener(actionListener);
+        restartGameButton.setActionCommand("end game command");
+        restartGameButton.setVisible(false);
+        restartGameButton.setEnabled(false);
+        add(restartGameButton);
+    }
+
+    private void showEndGameGUI() {
+        restartGameButton.setVisible(true);
+        restartGameButton.setEnabled(true);
     }
 }

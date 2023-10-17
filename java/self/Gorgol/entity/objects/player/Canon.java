@@ -35,7 +35,7 @@ public class Canon extends DynamicAnimatedObject {
         );
 
         try {
-            bulletImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/bullet.png")));
+            bulletImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/shooting/bullet.png")));
         } catch (IOException ex) { throw new RuntimeException(); }
     }
 

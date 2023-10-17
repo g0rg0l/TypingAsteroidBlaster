@@ -9,14 +9,19 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class AsteroidFactory extends AbstractAnimatedObjectFactory {
+    private final Font font;
+
 
     public AsteroidFactory(float timePerSpawn, Rectangle spawnArea) {
         super(timePerSpawn, spawnArea, 150, 75, 5);
 
         try {
-            this.src = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/asteroid.png")));
+            this.src = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/asteroids/asteroid.png")));
+            Font font = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(getClass().getResourceAsStream("/fonts/better-vcr4.0.ttf")));
+            this.font = font.deriveFont(12f);
         }
         catch (IOException e) { throw new RuntimeException(); }
+        catch (FontFormatException e) { throw new RuntimeException(e); }
     }
 
     public Asteroid[] create() {
@@ -37,7 +42,7 @@ public class AsteroidFactory extends AbstractAnimatedObjectFactory {
         PhysicsBody randomBody = getRandomPhysicsBody();
         float size = randomBody.width;
 
-        return new Asteroid(randomBody.x, randomBody.y, size, size, randomBody.speed, src);
+        return new Asteroid(randomBody.x, randomBody.y, size, size, randomBody.speed, src, font);
     }
 
     private boolean isAvailable(Asteroid asteroid, Asteroid[] existing) {

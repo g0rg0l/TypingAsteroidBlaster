@@ -1,7 +1,7 @@
 package self.Gorgol.entity.utilities;
 
-import self.Gorgol.entity.objects.Player;
 import self.Gorgol.entity.objects.asteroids.Asteroid;
+import self.Gorgol.entity.objects.player.Player;
 
 public class MathGameLogic {
     public static float getAngleFromPlayerToAsteroid(Player player, Asteroid asteroid) {

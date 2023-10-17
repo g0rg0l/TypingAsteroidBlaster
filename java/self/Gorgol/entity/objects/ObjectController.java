@@ -1,6 +1,5 @@
 package self.Gorgol.entity.objects;
 
-import self.Gorgol.engineUtilities.CrossHair;
 import self.Gorgol.entity.objects.asteroids.Asteroid;
 import self.Gorgol.entity.objects.asteroids.AsteroidHolder;
 import self.Gorgol.entity.objects.background.Background;
@@ -35,7 +34,7 @@ public class ObjectController {
         this.backgroundElementHolder = new BackgroundElementHolder();
 
         try {
-            BufferedImage chImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/crosshair.png")));
+            BufferedImage chImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/player and stuff/crosshair.png")));
             this.crossHair = new CrossHair(chImage);
         } catch (IOException ex) { throw new RuntimeException(); }
     }
