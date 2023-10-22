@@ -1,29 +1,30 @@
 package self.Gorgol.ui;
 
 
+import self.Gorgol.ui.keyboard.Keyboard;
 import self.Gorgol.ui.utilities.CustomButton;
 import self.Gorgol.ui.utilities.CustomPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
 public class Menu extends JPanel implements ActionListener {
     public final Dimension sizes;
-    private final ActionListener actionListener;
-
+    private final ActionListener engine;
     private CustomPanel optionsPanel;
+    public Keyboard keyboard;
+
 
     public Menu(int width, int height, ActionListener actionListener) {
         super();
 
         this.sizes = new Dimension(width, height);
-        this.actionListener = actionListener;
+        this.engine = actionListener;
 
         setLayout(null);
         setPreferredSize(this.sizes);
@@ -38,10 +39,14 @@ public class Menu extends JPanel implements ActionListener {
         g.fillRect(0, 0, getWidth(), getHeight());
     }
 
+    public void update(float dt) {
+
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if ("open options command".equals(e.getActionCommand())) {
-            optionsPanel.setVisible(!optionsPanel.isVisible());
+        switch (e.getActionCommand()) {
+            case "open options command" -> { optionsPanel.setVisible(!optionsPanel.isVisible()); }
         }
     }
 
@@ -68,7 +73,7 @@ public class Menu extends JPanel implements ActionListener {
         CustomPanel btnPanel = new CustomPanel(42, 245, 168, 240, btnPanelSrc);
         add(btnPanel);
 
-        CustomButton btn = new CustomButton(33, 35, 102, 48, "Начать", font, btnSrc, actionListener);
+        CustomButton btn = new CustomButton(33, 35, 102, 48, "Начать", font, btnSrc, engine);
         btn.setActionCommand("start game command");
         btnPanel.add(btn);
 
@@ -76,13 +81,18 @@ public class Menu extends JPanel implements ActionListener {
         btn1.setActionCommand("open options command");
         btnPanel.add(btn1);
 
-        CustomButton btn2 = new CustomButton(33, 157, 102, 48, "Выйти", font, btnSrc, actionListener);
+        CustomButton btn2 = new CustomButton(33, 157, 102, 48, "Выйти", font, btnSrc, engine);
         btn2.setActionCommand("exit game command");
         btnPanel.add(btn2);
+
 
         /* OPTIONS MENU */
         optionsPanel = new CustomPanel(252, 245, 356, 240, optionsPanelSrc);
         optionsPanel.setVisible(false);
         add(optionsPanel);
+
+        /* DYNAMIC KEYBOARD */
+        keyboard = new Keyboard(100, 606, 450, 121);
+        add(keyboard);
     }
 }

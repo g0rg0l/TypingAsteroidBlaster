@@ -46,4 +46,8 @@ public class AnimatedObject implements IRenderer, IUpdatable {
     protected boolean isLastAnimationStep() {
         return totalAnimationSteps == currentAnimationStep + 1;
     }
+
+    protected boolean isPreLastAnimationStep() {
+        return totalAnimationSteps == currentAnimationStep + 2;
+    }
 }

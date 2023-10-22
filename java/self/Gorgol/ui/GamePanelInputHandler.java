@@ -3,30 +3,24 @@ package self.Gorgol.ui;
 import self.Gorgol.entity.objects.CrossHair;
 import self.Gorgol.entity.objects.ObjectController;
 import self.Gorgol.entity.objects.asteroids.Asteroid;
-import self.Gorgol.entity.objects.player.Player;
 import self.Gorgol.entity.objects.asteroids.AsteroidHolder;
+import self.Gorgol.entity.objects.player.Player;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class GamePanelKeyListener implements KeyListener {
+public class GamePanelInputHandler {
     private final Player player;
     private final AsteroidHolder asteroidHolder;
     private final CrossHair crossHair;
 
     private Asteroid selected = null;
 
-    public GamePanelKeyListener(Game panel) {
-        ObjectController objectController = panel.getObjectController();
+    public GamePanelInputHandler(ObjectController objectController) {
         this.player = objectController.getPlayer();
         this.asteroidHolder = objectController.getAsteroidHolder();
         this.crossHair = objectController.getCrossHair();
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-        char ch = Character.toLowerCase(e.getKeyChar());
-
+    public void process(char ch) {
         if (Character.isAlphabetic(ch)) {
             /* Selecting */
             if (selected == null) {
@@ -59,12 +53,6 @@ public class GamePanelKeyListener implements KeyListener {
             }
         }
     }
-
-    @Override
-    public void keyPressed(KeyEvent e) {}
-
-    @Override
-    public void keyReleased(KeyEvent e) {}
 
     private void checkWordToComplete() {
         if (selected.word.isCompleted()) {

@@ -1,6 +1,5 @@
 package self.Gorgol.ui.utilities;
 
-import self.Gorgol.entity.utilities.Vector2f;
 
 import javax.swing.*;
 import java.awt.*;

@@ -30,4 +30,8 @@ public class EffectsHolder {
             aliveEffects.get(i).render(g);
         }
     }
+
+    public void clear() {
+        aliveEffects.clear();
+    }
 }
