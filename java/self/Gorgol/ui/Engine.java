@@ -91,8 +91,6 @@ public class Engine implements ActionListener {
      * Update всех компонентов игры, вызываемая из sub-потока
      */
     private void update(float dt) {
-        System.out.println(gameStartProperties.getVolume());
-
         if (gamePanel != null && !gamePanel.isGameOvered) gamePanel.update(dt);
         if (menuPanel.isVisible()) menuPanel.update(dt);
     }
