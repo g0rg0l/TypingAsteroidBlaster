@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 public abstract class AbstractAnimatedObjectFactory {
     protected BufferedImage src = null;
+
     protected float currentTime;
     protected final float timePerSpawn;
     protected final int maxEntityPerSpawn;
@@ -34,6 +35,8 @@ public abstract class AbstractAnimatedObjectFactory {
 
         return false;
     }
+
+    public void reset() { currentTime = 0; }
 
     protected final PhysicsBody getRandomPhysicsBody() {
         float width = (float) (minSize + Math.random() * (maxSize - minSize));

@@ -60,18 +60,22 @@ public class Asteroid extends AnimatedObject {
         int stringHeight = m.getHeight();
         int totalWidth = stringAliveWidth + stringDeadWidth;
 
-        int posX = (int) (body.x + body.width / 2);
-        int posY = (int) (body.y + body.height - stringHeight);
+        int posX = (int) Math.max(body.x + body.width / 2 - totalWidth / 2f, 0);
+        if (posX + totalWidth > 650) {
+            posX -= (posX + totalWidth - 650);
+        }
+
+        int posY = (int) hitBox.y - stringHeight / 2;
 
         g.setColor(Color.DARK_GRAY);
         g.drawString(word.getDeadPart(),
-                posX - totalWidth / 2,
+                posX,
                 posY
         );
 
         g.setColor(Color.WHITE);
         g.drawString(word.getAlivePart(),
-                posX - totalWidth / 2 + stringDeadWidth,
+                posX + stringDeadWidth,
                 posY
         );
     }

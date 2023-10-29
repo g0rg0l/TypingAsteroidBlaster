@@ -8,12 +8,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 
 public class CustomButton extends JComponent implements MouseListener {
     private final BufferedImage src;
     private BufferedImage currentImage;
-    private final ActionListener actionListener;
+    private final ArrayList<ActionListener> actionListeners;
     private String actionCommand;
     private final String label;
     private final Font font;
@@ -26,7 +27,9 @@ public class CustomButton extends JComponent implements MouseListener {
         this.src = src;
         this.label = label;
         this.font = font;
-        this.actionListener = actionListener;
+        this.actionListeners = new ArrayList<>();
+        this.actionListeners.add(actionListener);
+        this.actionCommand = "";
         this.currentImage = src.getSubimage(0, 0, src.getWidth(), src.getHeight() / 3);
 
         setBounds((int) x, (int) y, (int) width, (int) height);
@@ -36,7 +39,14 @@ public class CustomButton extends JComponent implements MouseListener {
         addMouseListener(this);
     }
 
+    public CustomButton(float x, float y, float width, float height,
+                        BufferedImage src, ActionListener actionListener) {
+        this(x, y, width, height, "", null, src, actionListener);
+    }
+
     public void setActionCommand(String command) { actionCommand = command; }
+
+    public void addActionListener(ActionListener actionListener) { actionListeners.add(actionListener); }
 
     @Override
     public void paintComponent(Graphics g) {
@@ -47,12 +57,14 @@ public class CustomButton extends JComponent implements MouseListener {
                 0, 0, currentImage.getWidth(), currentImage.getHeight(),
                 null);
 
-        g.setFont(font);
-        g.setColor(Color.WHITE);
-        g.drawString(label,
-                getWidth() / 2 - g.getFontMetrics().stringWidth(label) / 2,
-                (int) (getHeight() / 1.5)
-        );
+        if (!label.isEmpty()) {
+            g.setFont(font);
+            g.setColor(Color.WHITE);
+            g.drawString(label,
+                    getWidth() / 2 - g.getFontMetrics().stringWidth(label) / 2,
+                    (int) (getHeight() / 1.5)
+            );
+        }
     }
 
     @Override
@@ -72,11 +84,15 @@ public class CustomButton extends JComponent implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        actionListener.actionPerformed(
-                new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-                        actionCommand,
-                        e.getWhen(), e.getModifiersEx())
-        );
+        if (!actionCommand.isEmpty()) {
+            for (ActionListener actionListener : actionListeners) {
+                actionListener.actionPerformed(
+                        new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
+                                actionCommand,
+                                e.getWhen(), e.getModifiersEx())
+                );
+            }
+        }
     }
 
     @Override

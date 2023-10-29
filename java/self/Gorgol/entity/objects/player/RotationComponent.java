@@ -8,7 +8,7 @@ import java.awt.geom.AffineTransform;
 
 public class RotationComponent implements IUpdatable {
     private final HitBox body;
-    private final AffineTransform tx;
+    private AffineTransform tx;
     private final float speed = 16;
     private float target;
     private Asteroid targetAsteroid;
@@ -37,6 +37,13 @@ public class RotationComponent implements IUpdatable {
     public void returnToDefault() {
         isWaitingForShoot = false;
         isReturning = true;
+    }
+
+    public void move(float dx, float dy) {
+        body.x += dx;
+        body.y += dy;
+
+        tx.translate(dx, dy);
     }
 
     public AffineTransform getTx() { return tx; }

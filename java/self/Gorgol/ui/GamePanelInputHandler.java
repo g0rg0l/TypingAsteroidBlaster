@@ -5,6 +5,9 @@ import self.Gorgol.entity.objects.ObjectController;
 import self.Gorgol.entity.objects.asteroids.Asteroid;
 import self.Gorgol.entity.objects.asteroids.AsteroidHolder;
 import self.Gorgol.entity.objects.player.Player;
+import self.Gorgol.sound.SoundHolder;
+
+import java.awt.event.KeyEvent;
 
 
 public class GamePanelInputHandler {
@@ -21,7 +24,13 @@ public class GamePanelInputHandler {
     }
 
     public void process(char ch) {
-        if (Character.isAlphabetic(ch)) {
+        if (ch == KeyEvent.VK_ESCAPE) {
+            crossHair.simpleUnCall();
+            selected = null;
+        }
+        else if (Character.isAlphabetic(ch)) {
+            ch = Character.toLowerCase(ch);
+
             /* Selecting */
             if (selected == null) {
                 Asteroid typed = asteroidHolder.getByChar(ch);
@@ -35,6 +44,7 @@ public class GamePanelInputHandler {
                     typed.word.typeNext();
                     selected = typed;
                     checkWordToComplete();
+                    SoundHolder.INSTANCE.play(SoundHolder.Type.SELECT_ASTEROID);
                 }
             }
             /* Typing already selected */
@@ -49,6 +59,7 @@ public class GamePanelInputHandler {
                 else {
                     crossHair.incorrectUnCall();
                     selected = null;
+                    SoundHolder.INSTANCE.play(SoundHolder.Type.INCORRECT_INPUT);
                 }
             }
         }

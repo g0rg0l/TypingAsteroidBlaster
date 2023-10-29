@@ -4,6 +4,7 @@ import self.Gorgol.entity.objects.asteroids.Asteroid;
 import self.Gorgol.entity.objects.bullets.Bullet;
 import self.Gorgol.entity.objects.bullets.BulletsHolder;
 import self.Gorgol.entity.utilities.HitBox;
+import self.Gorgol.sound.SoundHolder;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -50,6 +51,8 @@ public class Canon extends DynamicAnimatedObject {
 
         currentShootTime = 0;
         bulletsCount = 0;
+
+        SoundHolder.INSTANCE.play(SoundHolder.Type.ROCKET_LAUNCHING);
     }
 
     @Override

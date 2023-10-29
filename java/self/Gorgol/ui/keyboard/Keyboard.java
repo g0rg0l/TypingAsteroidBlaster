@@ -1,5 +1,6 @@
 package self.Gorgol.ui.keyboard;
 
+import self.Gorgol.ui.MenuPanelInputHandler;
 import self.Gorgol.ui.utilities.CustomPanel;
 
 import javax.imageio.ImageIO;
@@ -14,12 +15,10 @@ public class Keyboard extends CustomPanel {
     private final Key[] keys;
     private int index;
     private final Map<String, BufferedImage> keySrcMap;
-    private final KeyboardInputHandler inputHandler;
 
     public Keyboard(float x, float y, float width, float height) {
         super(x, y, width, height);
 
-        this.inputHandler = new KeyboardInputHandler();
         this.keys = new Key[60];
         this.index = 0;
         this.keySrcMap = new HashMap<>();
@@ -29,7 +28,7 @@ public class Keyboard extends CustomPanel {
     }
 
     public void press(char input) {
-        String keyCode = inputHandler.processInput(input);
+        String keyCode = MenuPanelInputHandler.processInput(input);
 
         if (!keyCode.isEmpty()) {
             for (Key key : keys) {
@@ -41,8 +40,21 @@ public class Keyboard extends CustomPanel {
         }
     }
 
+    public void press(char input, float autoRelease) {
+        String keyCode = MenuPanelInputHandler.processInput(input);
+
+        if (!keyCode.isEmpty()) {
+            for (Key key : keys) {
+                if (key.getKeyCode().equals(keyCode)) {
+                    key.press(autoRelease);
+                    break;
+                }
+            }
+        }
+    }
+
     public void release(char input) {
-        String keyCode = inputHandler.processInput(input);
+        String keyCode = MenuPanelInputHandler.processInput(input);
 
         if (!keyCode.isEmpty()) {
             for (Key key : keys) {
@@ -61,6 +73,11 @@ public class Keyboard extends CustomPanel {
         for (int i = 0; i < keys.length; i++) {
             keys[i].render(g);
         }
+    }
+
+    public void update(float dt) {
+        for (Key key : keys)
+            key.update(dt);
     }
 
     private void initKeysSrc() {

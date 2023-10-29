@@ -1,9 +1,9 @@
-package self.Gorgol.ui.keyboard;
+package self.Gorgol.ui;
 
 import java.awt.event.KeyEvent;
 
-public class KeyboardInputHandler {
-    public String processInput(char ch) {
+public class MenuPanelInputHandler {
+    public static String processInput(char ch) {
         String code = "";
 
         if (Character.isDigit(ch)) {
@@ -30,7 +30,7 @@ public class KeyboardInputHandler {
         return code;
     }
 
-    private boolean isLatinLetter(char c) {
+    public static boolean isLatinLetter(char c) {
         return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
     }
 }

@@ -3,6 +3,7 @@ package self.Gorgol.entity.objects.asteroids;
 import self.Gorgol.entity.objects.asteroids.words.Word;
 import self.Gorgol.entity.objects.bullets.Bullet;
 import self.Gorgol.entity.utilities.HitBox;
+import self.Gorgol.sound.SoundHolder;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -34,7 +35,10 @@ public class AsteroidHolder {
                     if (bullet.target == object && bullet.hitBox.intersects(object.hitBox)) {
                         bullet.explode();
                         object.bulletCollided++;
-                        if (object.bulletCollided == 2) object.explode();
+                        if (object.bulletCollided == 2) {
+                            object.explode();
+                            SoundHolder.INSTANCE.play(SoundHolder.Type.ASTEROID_EXPLOSION);
+                        }
                     }
                 }
 
@@ -82,6 +86,19 @@ public class AsteroidHolder {
             words[i] = asteroids.get(i).word;
 
         return words;
+    }
+
+    public Asteroid[] getAllAliveAsteroids() {
+        Asteroid[] result = new Asteroid[asteroids.size()];
+
+        for (int i = 0; i < asteroids.size(); i++)
+            result[i] = asteroids.get(i);
+
+        return result;
+    }
+
+    public boolean isFull() {
+        return asteroids.size() >= 18;
     }
 
     private ArrayList<Asteroid> getOnlyByChar(char ch) {

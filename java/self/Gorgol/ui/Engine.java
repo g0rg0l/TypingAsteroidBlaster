@@ -1,21 +1,24 @@
 package self.Gorgol.ui;
 
 
+import self.Gorgol.sound.SoundHolder;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.sql.SQLOutput;
 
 public class Engine implements ActionListener {
     private Game gamePanel;
+    private final GameProperties gameStartProperties;
     private Menu menuPanel;
     private final JFrame window;
 
     public Engine(JFrame window) {
         this.window = window;
+        this.gameStartProperties = new GameProperties();
 
         createGUI();
         setupGameLoop();
@@ -28,9 +31,51 @@ public class Engine implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case "exit game command" -> System.exit(0);
-            case "start game command" -> goToNewGame();
-            case "end game command" -> goToMenu();
+            case "exit game command" -> {
+                SoundHolder.INSTANCE.play(SoundHolder.Type.SIMPLE_BUTTON_CLICK);
+                System.exit(0);
+            }
+            case "start game command" -> {
+                SoundHolder.INSTANCE.play(SoundHolder.Type.GAME_RUN_BUTTON_CLICK);
+                goToNewGame();
+            }
+            case "restart game command" -> {
+                SoundHolder.INSTANCE.play(SoundHolder.Type.GAME_RUN_BUTTON_CLICK);
+                goToMenu(); goToNewGame();
+            }
+            case "end game command" -> {
+                SoundHolder.INSTANCE.play(SoundHolder.Type.SIMPLE_BUTTON_CLICK);
+                goToMenu();
+            }
+
+            case "upgrade difficulty command" -> {
+                SoundHolder.INSTANCE.play(SoundHolder.Type.SIMPLE_BUTTON_CLICK);
+                gameStartProperties.upgradeDifficulty();
+            }
+            case "downgrade difficulty command" ->  {
+                SoundHolder.INSTANCE.play(SoundHolder.Type.SIMPLE_BUTTON_CLICK);
+                gameStartProperties.downgradeDifficulty();
+            }
+
+            case "downgrade music command" -> {
+                SoundHolder.INSTANCE.play(SoundHolder.Type.SIMPLE_BUTTON_CLICK);
+                gameStartProperties.downgradeVolume();
+                SoundHolder.INSTANCE.setVolume(gameStartProperties.getVolume());
+            }
+            case "upgrade music command" -> {
+                SoundHolder.INSTANCE.play(SoundHolder.Type.SIMPLE_BUTTON_CLICK);
+                gameStartProperties.upgradeVolume();
+                SoundHolder.INSTANCE.setVolume(gameStartProperties.getVolume());
+            }
+
+            case "mark to solo command" -> {
+                SoundHolder.INSTANCE.play(SoundHolder.Type.SIMPLE_BUTTON_CLICK);
+                gameStartProperties.setSoloAsteroidSpawn();
+            }
+            case "mark to bunch command" -> {
+                SoundHolder.INSTANCE.play(SoundHolder.Type.SIMPLE_BUTTON_CLICK);
+                gameStartProperties.setBunchAsteroidSpawn();
+            }
         }
     }
 
@@ -46,6 +91,8 @@ public class Engine implements ActionListener {
      * Update всех компонентов игры, вызываемая из sub-потока
      */
     private void update(float dt) {
+        System.out.println(gameStartProperties.getVolume());
+
         if (gamePanel != null && !gamePanel.isGameOvered) gamePanel.update(dt);
         if (menuPanel.isVisible()) menuPanel.update(dt);
     }
@@ -103,7 +150,7 @@ public class Engine implements ActionListener {
     private void goToNewGame() {
         menuPanel.setVisible(false);
 
-        gamePanel = new Game(650, 850, this);
+        gamePanel = new Game(650, 850, gameStartProperties, this);
         window.add(gamePanel, BorderLayout.CENTER);
     }
 
@@ -123,6 +170,9 @@ public class Engine implements ActionListener {
             public void keyTyped(KeyEvent e) {
                 if (gamePanel != null && !gamePanel.isGameOvered) {
                     gamePanel.processInput(e.getKeyChar());
+                }
+                else {
+                    menuPanel.inputField.input(e.getKeyChar());
                 }
             }
 

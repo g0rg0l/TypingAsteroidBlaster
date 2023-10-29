@@ -12,8 +12,8 @@ public class AsteroidFactory extends AbstractAnimatedObjectFactory {
     private final Font font;
 
 
-    public AsteroidFactory(float timePerSpawn, Rectangle spawnArea) {
-        super(timePerSpawn, spawnArea, 150, 75, 5);
+    public AsteroidFactory(float timePerSpawn, int maxEntityPerSpawn, Rectangle spawnArea) {
+        super(timePerSpawn, spawnArea, 150, 75, maxEntityPerSpawn);
 
         try {
             this.src = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/asteroids/asteroid.png")));
@@ -24,13 +24,15 @@ public class AsteroidFactory extends AbstractAnimatedObjectFactory {
         catch (FontFormatException e) { throw new RuntimeException(e); }
     }
 
-    public Asteroid[] create() {
+    public Asteroid[] create(Asteroid[] aliveAsteroids) {
         int n = (int) (1 + Math.random() * maxEntityPerSpawn);
         Asteroid[] entities = new Asteroid[n];
 
         for (int i = 0; i < n; i++) {
             Asteroid asteroid = createRandomInstance();
-            while (!isAvailable(asteroid, entities)) asteroid = createRandomInstance();
+            while (!isAvailable(asteroid, entities) || !isAvailable(asteroid, aliveAsteroids)) {
+                asteroid = createRandomInstance();
+            }
 
             entities[i] = asteroid;
         }
@@ -42,7 +44,7 @@ public class AsteroidFactory extends AbstractAnimatedObjectFactory {
         PhysicsBody randomBody = getRandomPhysicsBody();
         float size = randomBody.width;
 
-        return new Asteroid(randomBody.x, randomBody.y, size, size, randomBody.speed, src, font);
+        return new Asteroid(randomBody.x, randomBody.y, size, size, 50f, src, font);
     }
 
     private boolean isAvailable(Asteroid asteroid, Asteroid[] existing) {

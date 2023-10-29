@@ -22,7 +22,7 @@ public class CrossHair extends AnimatedObject {
     public CrossHair(BufferedImage image) {
         super(0, 0, 36f, 36f, image, 13, 0.035f);
         this.calledTo = null;
-        this.gap = 30;
+        this.gap = 1;
         this.incorrectConditionTime = 0.3f;
         this.isIncorrectCondition = false;
         this.currentTime = 0.f;
